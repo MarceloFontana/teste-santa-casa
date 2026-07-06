@@ -10,6 +10,20 @@ Módulo administrativo para centralizar o gerenciamento de usuários e o control
 - Node.js e npm (para compilar os assets do front-end)
 - Git
 
+### Ambiente utilizado no desenvolvimento
+
+Versões exatas instaladas e usadas para desenvolver e testar este projeto:
+
+| Ferramenta | Versão |
+| --- | --- |
+| PHP | 8.2.12 |
+| Composer | 2.10 |
+| Laravel Framework | 12.62.0 |
+| MariaDB | 10.4.32 |
+| Node.js | v22.19.0 |
+| npm | 10.9.3 |
+| Git | 2.49.0 |
+
 ## Instalação
 
 ```bash
@@ -89,12 +103,12 @@ Cobrem autenticação, perfil, e especificamente o controle de acesso e o bloque
 
 ## Tecnologias utilizadas
 
-- **Laravel 12** (PHP 8.2+)
-- **Laravel Breeze** (stack Blade) para autenticação (login)
-- **Spatie Laravel Permission** para roles e permissões
+- **Laravel 12.62.0** (PHP 8.2.12)
+- **Laravel Breeze v2.4.2** (stack Blade) para autenticação (login)
+- **Spatie Laravel Permission 6.25.0** para roles e permissões
 - **Tailwind CSS** para estilização
-- **Laravel Pint** para padronização de código
-- **MySQL/MariaDB** como banco de dados
+- **Laravel Pint v1.29.3** para padronização de código
+- **MySQL/MariaDB 10.4.32** como banco de dados
 
 ## Decisões técnicas
 
