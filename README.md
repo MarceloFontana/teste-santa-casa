@@ -14,8 +14,8 @@ Módulo administrativo para centralizar o gerenciamento de usuários e o control
 
 ```bash
 # Clonar o repositório
-git clone <url-do-repositorio>
-cd TesteSantaCasa
+git clone https://github.com/MarceloFontana/teste-santa-casa.git
+cd teste-santa-casa
 
 # Instalar dependências PHP
 composer install
