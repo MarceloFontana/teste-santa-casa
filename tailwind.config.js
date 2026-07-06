@@ -14,6 +14,14 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                santacasa: {
+                    dark: '#174873',
+                    DEFAULT: '#0071BF',
+                    light: '#5EBADF',
+                    accent: '#ff7e27',
+                },
+            },
         },
     },
 

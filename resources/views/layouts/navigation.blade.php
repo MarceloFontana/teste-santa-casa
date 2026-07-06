@@ -15,6 +15,24 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                        {{ __('Usuários') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('permissions.index')" :active="request()->routeIs('permissions.*')">
+                        {{ __('Permissões') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('modules.setores-hospitalares')" :active="request()->routeIs('modules.setores-hospitalares')">
+                        {{ __('Setores Hospitalares') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('modules.especialidades-medicas')" :active="request()->routeIs('modules.especialidades-medicas')">
+                        {{ __('Especialidades Médicas') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('modules.equipamentos')" :active="request()->routeIs('modules.equipamentos')">
+                        {{ __('Equipamentos') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('modules.unidades-assistenciais')" :active="request()->routeIs('modules.unidades-assistenciais')">
+                        {{ __('Unidades Assistenciais') }}
+                    </x-nav-link>
                 </div>
             </div>
 

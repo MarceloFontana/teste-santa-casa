@@ -15,16 +15,23 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
+        <div class="min-h-screen flex flex-col justify-center items-center px-4 py-8 bg-gradient-to-br from-santacasa-dark to-santacasa">
+            <div class="w-full max-w-md bg-white shadow-2xl overflow-hidden rounded-lg">
+                <div class="px-8 py-10">
+                    <div class="mb-6 flex flex-col items-center">
+                        <a href="/">
+                            <x-application-logo class="w-40 h-auto" />
+                        </a>
+                        <p class="mt-3 text-sm text-gray-500">{{ __('Módulo de Acessos') }}</p>
+                    </div>
+
+                    {{ $slot }}
+                </div>
             </div>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-                {{ $slot }}
-            </div>
+            <p class="mt-8 text-white/80 text-xs font-medium tracking-wide">
+                &copy; {{ date('Y') }} Santa Casa de Misericórdia de Porto Alegre
+            </p>
         </div>
     </body>
 </html>
