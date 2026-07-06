@@ -5,6 +5,7 @@ Módulo administrativo para centralizar o gerenciamento de usuários e o control
 ## Requisitos
 
 - PHP >= 8.2
+- Laravel Framework >= 12.62.0 
 - Composer
 - MySQL ou MariaDB
 - Node.js e npm (para compilar os assets do front-end)
