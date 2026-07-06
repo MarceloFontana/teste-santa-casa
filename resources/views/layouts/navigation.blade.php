@@ -99,6 +99,35 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @role('admin')
+                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                    {{ __('Usuários') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('permissions.index')" :active="request()->routeIs('permissions.*')">
+                    {{ __('Permissões') }}
+                </x-responsive-nav-link>
+            @endrole
+
+            @can('setores-hospitalares')
+                <x-responsive-nav-link :href="route('modules.setores-hospitalares')" :active="request()->routeIs('modules.setores-hospitalares')">
+                    {{ __('Setores Hospitalares') }}
+                </x-responsive-nav-link>
+            @endcan
+            @can('especialidades-medicas')
+                <x-responsive-nav-link :href="route('modules.especialidades-medicas')" :active="request()->routeIs('modules.especialidades-medicas')">
+                    {{ __('Especialidades Médicas') }}
+                </x-responsive-nav-link>
+            @endcan
+            @can('equipamentos')
+                <x-responsive-nav-link :href="route('modules.equipamentos')" :active="request()->routeIs('modules.equipamentos')">
+                    {{ __('Equipamentos') }}
+                </x-responsive-nav-link>
+            @endcan
+            @can('unidades-assistenciais')
+                <x-responsive-nav-link :href="route('modules.unidades-assistenciais')" :active="request()->routeIs('modules.unidades-assistenciais')">
+                    {{ __('Unidades Assistenciais') }}
+                </x-responsive-nav-link>
+            @endcan
         </div>
 
         <!-- Responsive Settings Options -->

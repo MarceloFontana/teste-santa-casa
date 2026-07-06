@@ -12,7 +12,7 @@
             @endif
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+                <div class="p-4 sm:p-6 text-gray-900">
                     <div class="flex justify-end mb-4">
                         <a href="{{ route('permissions.create') }}">
                             <x-primary-button type="button">
@@ -21,6 +21,7 @@
                         </a>
                     </div>
 
+                    <div class="overflow-x-auto -mx-4 sm:mx-0">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
@@ -48,6 +49,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
