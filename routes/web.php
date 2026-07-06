@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,15 +17,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/usuarios', function () {
-        $users = collect([
-            (object) ['id' => 1, 'name' => 'Admin Master', 'email' => 'admin@santacasa.org.br', 'role' => 'Administrador'],
-            (object) ['id' => 2, 'name' => 'Maria Souza', 'email' => 'maria.souza@santacasa.org.br', 'role' => 'Colaborador'],
-            (object) ['id' => 3, 'name' => 'João Pereira', 'email' => 'joao.pereira@santacasa.org.br', 'role' => 'Colaborador'],
-        ]);
-
-        return view('users.index', compact('users'));
-    })->name('users.index');
+    Route::middleware('role:admin')->group(function () {
+        Route::resource('usuarios', UserController::class)->except('show')->names('users');
+    });
 
     Route::get('/permissoes', function () {
         $permissions = collect([
@@ -38,12 +33,16 @@ Route::middleware('auth')->group(function () {
     })->name('permissions.index');
 
     Route::get('/modulos/setores-hospitalares', fn () => view('modules.show', ['title' => 'Setores Hospitalares']))
+        ->middleware('permission:setores-hospitalares')
         ->name('modules.setores-hospitalares');
     Route::get('/modulos/especialidades-medicas', fn () => view('modules.show', ['title' => 'Especialidades Médicas']))
+        ->middleware('permission:especialidades-medicas')
         ->name('modules.especialidades-medicas');
     Route::get('/modulos/equipamentos', fn () => view('modules.show', ['title' => 'Equipamentos']))
+        ->middleware('permission:equipamentos')
         ->name('modules.equipamentos');
     Route::get('/modulos/unidades-assistenciais', fn () => view('modules.show', ['title' => 'Unidades Assistenciais']))
+        ->middleware('permission:unidades-assistenciais')
         ->name('modules.unidades-assistenciais');
 });
 

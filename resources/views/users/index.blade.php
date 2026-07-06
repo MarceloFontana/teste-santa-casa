@@ -7,12 +7,22 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @if (session('status'))
+                <div class="mb-4 p-4 bg-green-50 text-green-700 rounded-md text-sm">{{ session('status') }}</div>
+            @endif
+
+            @if (session('error'))
+                <div class="mb-4 p-4 bg-red-50 text-red-700 rounded-md text-sm">{{ session('error') }}</div>
+            @endif
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="flex justify-end mb-4">
-                        <x-primary-button type="button">
-                            {{ __('Novo Usuário') }}
-                        </x-primary-button>
+                        <a href="{{ route('users.create') }}">
+                            <x-primary-button type="button">
+                                {{ __('Novo Usuário') }}
+                            </x-primary-button>
+                        </a>
                     </div>
 
                     <table class="min-w-full divide-y divide-gray-200">
@@ -30,17 +40,23 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $user->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->email }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        <span @class([
-                                            'px-2 inline-flex text-xs leading-5 font-semibold rounded-full',
-                                            'bg-santacasa-light/30 text-santacasa-dark' => $user->role === 'Administrador',
-                                            'bg-gray-100 text-gray-700' => $user->role !== 'Administrador',
-                                        ])>
-                                            {{ $user->role }}
-                                        </span>
+                                        @foreach ($user->roles as $role)
+                                            <span @class([
+                                                'px-2 inline-flex text-xs leading-5 font-semibold rounded-full',
+                                                'bg-santacasa-light/30 text-santacasa-dark' => $role->name === 'admin',
+                                                'bg-gray-100 text-gray-700' => $role->name !== 'admin',
+                                            ])>
+                                                {{ ucfirst($role->name) }}
+                                            </span>
+                                        @endforeach
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                        <a href="#" class="text-santacasa hover:text-santacasa-dark">{{ __('Editar') }}</a>
-                                        <a href="#" class="text-red-600 hover:text-red-800">{{ __('Excluir') }}</a>
+                                        <a href="{{ route('users.edit', $user) }}" class="text-santacasa hover:text-santacasa-dark">{{ __('Editar') }}</a>
+                                        <form method="POST" action="{{ route('users.destroy', $user) }}" class="inline" onsubmit="return confirm('{{ __('Excluir este usuário?') }}');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:text-red-800">{{ __('Excluir') }}</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
