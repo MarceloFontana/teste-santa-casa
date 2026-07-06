@@ -7,12 +7,18 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @if (session('status'))
+                <div class="mb-4 p-4 bg-green-50 text-green-700 rounded-md text-sm">{{ session('status') }}</div>
+            @endif
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="flex justify-end mb-4">
-                        <x-primary-button type="button">
-                            {{ __('Nova Permissão') }}
-                        </x-primary-button>
+                        <a href="{{ route('permissions.create') }}">
+                            <x-primary-button type="button">
+                                {{ __('Nova Permissão') }}
+                            </x-primary-button>
+                        </a>
                     </div>
 
                     <table class="min-w-full divide-y divide-gray-200">
@@ -27,10 +33,16 @@
                             @foreach ($permissions as $permission)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">{{ $permission->name }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $permission->label }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ \Database\Seeders\PermissionSeeder::MODULES[$permission->name] ?? '—' }}
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                        <a href="#" class="text-santacasa hover:text-santacasa-dark">{{ __('Editar') }}</a>
-                                        <a href="#" class="text-red-600 hover:text-red-800">{{ __('Excluir') }}</a>
+                                        <a href="{{ route('permissions.edit', $permission) }}" class="text-santacasa hover:text-santacasa-dark">{{ __('Editar') }}</a>
+                                        <form method="POST" action="{{ route('permissions.destroy', $permission) }}" class="inline" onsubmit="return confirm('{{ __('Excluir esta permissão?') }}');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:text-red-800">{{ __('Excluir') }}</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

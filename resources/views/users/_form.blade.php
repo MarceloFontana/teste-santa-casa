@@ -1,6 +1,6 @@
 @php
     $userRoles = isset($user) ? $user->roles->pluck('name')->all() : [];
-    $userPermissions = isset($user) ? $user->getDirectPermissionNames()->all() : [];
+    $userPermissions = isset($user) ? $user->getDirectPermissions()->pluck('name')->all() : [];
 @endphp
 
 <div>

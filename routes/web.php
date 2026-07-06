@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -18,19 +19,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::middleware('role:admin')->group(function () {
-        Route::resource('usuarios', UserController::class)->except('show')->names('users');
+        Route::resource('usuarios', UserController::class)
+            ->except('show')
+            ->names('users')
+            ->parameters(['usuarios' => 'user']);
+        Route::resource('permissoes', PermissionController::class)
+            ->except('show')
+            ->names('permissions')
+            ->parameters(['permissoes' => 'permission']);
     });
-
-    Route::get('/permissoes', function () {
-        $permissions = collect([
-            (object) ['id' => 1, 'name' => 'setores-hospitalares', 'label' => 'Setores Hospitalares'],
-            (object) ['id' => 2, 'name' => 'especialidades-medicas', 'label' => 'Especialidades Médicas'],
-            (object) ['id' => 3, 'name' => 'equipamentos', 'label' => 'Equipamentos'],
-            (object) ['id' => 4, 'name' => 'unidades-assistenciais', 'label' => 'Unidades Assistenciais'],
-        ]);
-
-        return view('permissions.index', compact('permissions'));
-    })->name('permissions.index');
 
     Route::get('/modulos/setores-hospitalares', fn () => view('modules.show', ['title' => 'Setores Hospitalares']))
         ->middleware('permission:setores-hospitalares')
