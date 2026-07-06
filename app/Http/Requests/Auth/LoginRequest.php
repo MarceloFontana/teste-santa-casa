@@ -50,6 +50,14 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        if (Auth::user()->isBloqueado()) {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'email' => 'Este usuário está bloqueado. Procure o administrador do sistema.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

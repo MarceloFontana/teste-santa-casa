@@ -15,6 +15,13 @@ class User extends Authenticatable
     use HasFactory, HasRoles, Notifiable;
 
     /**
+     * Valores possíveis para a coluna usr_blq.
+     */
+    public const USR_BLQ_DESBLOQUEADO = 1;
+
+    public const USR_BLQ_BLOQUEADO = 2;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -23,6 +30,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'usr_blq',
     ];
 
     /**
@@ -45,6 +53,12 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'usr_blq' => 'integer',
         ];
+    }
+
+    public function isBloqueado(): bool
+    {
+        return $this->usr_blq === self::USR_BLQ_BLOQUEADO;
     }
 }

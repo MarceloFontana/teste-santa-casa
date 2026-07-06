@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 class StoreUserRequest extends FormRequest
@@ -24,6 +26,7 @@ class StoreUserRequest extends FormRequest
             'role' => ['required', 'exists:roles,name'],
             'permissions' => ['array'],
             'permissions.*' => ['exists:permissions,name'],
+            'usr_blq' => ['required', Rule::in([User::USR_BLQ_DESBLOQUEADO, User::USR_BLQ_BLOQUEADO])],
         ];
     }
 }

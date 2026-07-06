@@ -30,11 +30,13 @@ class UserController extends Controller
     public function store(StoreUserRequest $request): RedirectResponse
     {
         $data = $request->validated();
+        $data['usr_blq'] = (int) $data['usr_blq'];
 
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
+            'usr_blq' => $data['usr_blq'],
         ]);
 
         $user->syncRoles([$data['role']]);
@@ -54,10 +56,16 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
         $data = $request->validated();
+        $data['usr_blq'] = (int) $data['usr_blq'];
+
+        if ($user->id === auth()->id() && $data['usr_blq'] === User::USR_BLQ_BLOQUEADO) {
+            return redirect()->route('users.index')->with('error', 'Você não pode bloquear seu próprio usuário.');
+        }
 
         $user->fill([
             'name' => $data['name'],
             'email' => $data['email'],
+            'usr_blq' => $data['usr_blq'],
         ]);
 
         if (! empty($data['password'])) {

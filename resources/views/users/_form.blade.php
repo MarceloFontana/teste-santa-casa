@@ -1,6 +1,8 @@
 @php
     $userRoles = isset($user) ? $user->roles->pluck('name')->all() : [];
     $userPermissions = isset($user) ? $user->getDirectPermissions()->pluck('name')->all() : [];
+    $isSelf = isset($user) && $user->id === auth()->id();
+    $isBloqueado = old('usr_blq', $user->usr_blq ?? \App\Models\User::USR_BLQ_DESBLOQUEADO) == \App\Models\User::USR_BLQ_BLOQUEADO;
 @endphp
 
 <div>
@@ -48,4 +50,20 @@
         @endforeach
     </div>
     <x-input-error :messages="$errors->get('permissions')" class="mt-2" />
+</div>
+
+<div class="mt-4">
+    <label class="flex items-center">
+        <input type="hidden" name="usr_blq" value="{{ \App\Models\User::USR_BLQ_DESBLOQUEADO }}">
+        <input type="checkbox" name="usr_blq" value="{{ \App\Models\User::USR_BLQ_BLOQUEADO }}"
+            class="rounded border-gray-300 text-red-600 shadow-sm focus:ring-red-500"
+            @checked($isBloqueado) @disabled($isSelf)>
+        <span class="ms-2 text-sm text-gray-700">{{ __('Usuário bloqueado') }}</span>
+    </label>
+    @if ($isSelf)
+        <p class="text-sm text-gray-500 mt-1">{{ __('Você não pode bloquear seu próprio usuário.') }}</p>
+    @else
+        <p class="text-sm text-gray-500 mt-1">{{ __('Um usuário bloqueado não consegue efetuar login.') }}</p>
+    @endif
+    <x-input-error :messages="$errors->get('usr_blq')" class="mt-2" />
 </div>
