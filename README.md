@@ -111,6 +111,39 @@ Cobrem autenticação, perfil, e especificamente o controle de acesso e o bloque
 - **Laravel Pint v1.29.3** para padronização de código
 - **MySQL/MariaDB 10.4.32** como banco de dados
 
+## Estrutura do projeto
+
+Organização da pasta `app/` por responsabilidade:
+
+```
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── Auth/                          ← controllers de autenticação isolados
+│   │   │   ├── AuthenticatedSessionController.php
+│   │   │   └── PasswordController.php
+│   │   ├── Controller.php                 ← base
+│   │   ├── UserController.php              ← CRUD de usuários
+│   │   ├── PermissionController.php        ← CRUD de permissões
+│   │   └── ProfileController.php
+│   └── Requests/
+│       ├── Auth/LoginRequest.php
+│       ├── StoreUserRequest.php            ← validação de criar usuário
+│       ├── UpdateUserRequest.php           ← validação de editar usuário
+│       ├── StorePermissionRequest.php
+│       ├── UpdatePermissionRequest.php
+│       └── ProfileUpdateRequest.php
+├── Models/
+│   └── User.php
+├── Providers/
+│   └── AppServiceProvider.php
+└── View/Components/
+    ├── AppLayout.php
+    └── GuestLayout.php
+```
+
+Controllers cuidam só da requisição HTTP, Requests cuidam só da validação, Models representam os dados — nada misturado. As views seguem a mesma lógica, uma pasta por recurso (`resources/views/users/`, `permissions/`, `modules/`, `layouts/`, `errors/`).
+
 ## Decisões técnicas
 
 - **Roles vs. Permissions**: o perfil **Administrador** é modelado como uma *role* (`admin`) e controla o acesso às telas de Usuários e Permissões via middleware `role:admin`. Já o acesso aos módulos operacionais pelo perfil **Colaborador** é controlado por *permissions* individuais (uma por módulo), verificadas via middleware `permission:<modulo>` em cada rota. Isso reflete a regra de negócio: o administrador não usa os módulos operacionais, e cada colaborador pode ter combinações diferentes de módulos liberados.
