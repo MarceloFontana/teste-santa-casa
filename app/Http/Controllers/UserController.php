@@ -40,7 +40,7 @@ class UserController extends Controller
         ]);
 
         $user->syncRoles([$data['role']]);
-        $user->syncPermissions($data['permissions'] ?? []);
+        $user->syncPermissions($data['role'] === 'admin' ? [] : ($data['permissions'] ?? []));
 
         return redirect()->route('users.index')->with('status', 'Usuário criado com sucesso.');
     }
@@ -75,7 +75,7 @@ class UserController extends Controller
         $user->save();
 
         $user->syncRoles([$data['role']]);
-        $user->syncPermissions($data['permissions'] ?? []);
+        $user->syncPermissions($data['role'] === 'admin' ? [] : ($data['permissions'] ?? []));
 
         return redirect()->route('users.index')->with('status', 'Usuário atualizado com sucesso.');
     }

@@ -23,33 +23,35 @@
     <x-input-error :messages="$errors->get('password')" class="mt-2" />
 </div>
 
-<div class="mt-4">
-    <x-input-label for="role" :value="__('Perfil')" />
-    <select id="role" name="role" class="block mt-1 w-full border-gray-300 focus:border-santacasa focus:ring-santacasa rounded-md shadow-sm" required>
-        <option value="">{{ __('Selecione...') }}</option>
-        @foreach ($roles as $role)
-            <option value="{{ $role->name }}" @selected(old('role', $userRoles[0] ?? '') === $role->name)>
-                {{ ucfirst($role->name) }}
-            </option>
-        @endforeach
-    </select>
-    <x-input-error :messages="$errors->get('role')" class="mt-2" />
-</div>
-
-<div class="mt-4">
-    <x-input-label :value="__('Permissões de módulo')" />
-    <p class="text-sm text-gray-500 mb-2">{{ __('Aplicável apenas ao perfil Colaborador.') }}</p>
-    <div class="space-y-2">
-        @foreach ($permissions as $permission)
-            <label class="flex items-center">
-                <input type="checkbox" name="permissions[]" value="{{ $permission->name }}"
-                    class="rounded border-gray-300 text-santacasa shadow-sm focus:ring-santacasa"
-                    @checked(in_array($permission->name, old('permissions', $userPermissions)))>
-                <span class="ms-2 text-sm text-gray-700">{{ config('modules.'.$permission->name, $permission->name) }}</span>
-            </label>
-        @endforeach
+<div class="mt-4" x-data="{ role: '{{ old('role', $userRoles[0] ?? '') }}' }">
+    <div>
+        <x-input-label for="role" :value="__('Perfil')" />
+        <select id="role" name="role" x-model="role" class="block mt-1 w-full border-gray-300 focus:border-santacasa focus:ring-santacasa rounded-md shadow-sm" required>
+            <option value="">{{ __('Selecione...') }}</option>
+            @foreach ($roles as $role)
+                <option value="{{ $role->name }}" @selected(old('role', $userRoles[0] ?? '') === $role->name)>
+                    {{ ucfirst($role->name) }}
+                </option>
+            @endforeach
+        </select>
+        <x-input-error :messages="$errors->get('role')" class="mt-2" />
     </div>
-    <x-input-error :messages="$errors->get('permissions')" class="mt-2" />
+
+    <div class="mt-4" x-show="role !== 'admin'" x-cloak>
+        <x-input-label :value="__('Permissões de módulo')" />
+        <p class="text-sm text-gray-500 mb-2">{{ __('Aplicável apenas ao perfil Colaborador.') }}</p>
+        <div class="space-y-2">
+            @foreach ($permissions as $permission)
+                <label class="flex items-center">
+                    <input type="checkbox" name="permissions[]" value="{{ $permission->name }}"
+                        class="rounded border-gray-300 text-santacasa shadow-sm focus:ring-santacasa"
+                        @checked(in_array($permission->name, old('permissions', $userPermissions)))>
+                    <span class="ms-2 text-sm text-gray-700">{{ config('modules.'.$permission->name, $permission->name) }}</span>
+                </label>
+            @endforeach
+        </div>
+        <x-input-error :messages="$errors->get('permissions')" class="mt-2" />
+    </div>
 </div>
 
 <div class="mt-4">
