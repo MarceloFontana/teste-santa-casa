@@ -73,6 +73,14 @@ php artisan serve
 
 Acesse `http://localhost:8000`.
 
+## Testes automatizados
+
+```bash
+php artisan test
+```
+
+Cobrem autenticação, perfil, e especificamente o controle de acesso e o bloqueio de usuário: gerenciamento de permissões (`PermissionManagementTest`), acesso aos módulos por role/permission (`ModuleAccessControlTest`) e o bloqueio de login (`UserBlockingTest`).
+
 ## Credenciais
 
 | Perfil | E-mail | Senha |
@@ -97,3 +105,4 @@ Acesse `http://localhost:8000`.
 - **Sem exclusão da própria conta de admin**: por segurança, um usuário não pode excluir a si mesmo pela tela de Usuários (evita que o único administrador se auto-bloqueie).
 - **Factories**: mantidas apenas as factories padrão do Laravel; o povoamento de dados de teste é feito via seeders, conforme exigido.
 - **Bloqueio de usuário (`usr_blq`)**: coluna adicionada à tabela `users` (`1` = desbloqueado, `2` = bloqueado) como base para um controle de usuários mais completo no futuro. Já está funcional: um usuário bloqueado não consegue autenticar (validado em `LoginRequest::authenticate()`), o status aparece na listagem de Usuários, e o próprio administrador não pode se autobloquear (mesma lógica de proteção usada na exclusão).
+- **Páginas de erro customizadas**: `resources/views/errors/403.blade.php` e `404.blade.php` seguem a identidade visual do sistema em vez da página padrão do Laravel — o framework já usa essas views automaticamente quando existem, sem configuração adicional.
