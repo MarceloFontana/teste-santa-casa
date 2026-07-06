@@ -35,7 +35,7 @@
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">{{ $permission->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ \Database\Seeders\PermissionSeeder::MODULES[$permission->name] ?? '—' }}
+                                        {{ config('modules.'.$permission->name, '—') }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                                         <a href="{{ route('permissions.edit', $permission) }}" class="text-santacasa hover:text-santacasa-dark">{{ __('Editar') }}</a>

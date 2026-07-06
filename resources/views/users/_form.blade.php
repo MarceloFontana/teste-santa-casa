@@ -43,7 +43,7 @@
                 <input type="checkbox" name="permissions[]" value="{{ $permission->name }}"
                     class="rounded border-gray-300 text-santacasa shadow-sm focus:ring-santacasa"
                     @checked(in_array($permission->name, old('permissions', $userPermissions)))>
-                <span class="ms-2 text-sm text-gray-700">{{ \Database\Seeders\PermissionSeeder::MODULES[$permission->name] ?? $permission->name }}</span>
+                <span class="ms-2 text-sm text-gray-700">{{ config('modules.'.$permission->name, $permission->name) }}</span>
             </label>
         @endforeach
     </div>
